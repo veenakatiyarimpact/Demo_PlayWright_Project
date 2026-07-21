@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 
-test('UI Basics Test', async ({ page ,browserName}) => {
+test('Test1', async ({ page ,browserName}) => {
    if (browserName === 'firefox') {
         console.log('Running in Firefox');
     }else if (browserName === 'chromium') {
@@ -11,7 +11,7 @@ test('UI Basics Test', async ({ page ,browserName}) => {
   await expect(page).toHaveTitle(/Playwright/);
 });
 
-test('RS', async({page})=>{
+test('Test2', async({page})=>{
   await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
   await page.locator("#userEmail").fill("veena.katiyar@gmail.com");
   await page.locator("#userPassword").fill("Ashlesha@128");
@@ -19,7 +19,7 @@ test('RS', async({page})=>{
 });
 
 
-test('Login_Error', async({page})=>{
+test('Test3', async({page})=>{
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
   await page.locator("#username").fill("rahulshettyacademy1");
 
@@ -33,7 +33,7 @@ test('Login_Error', async({page})=>{
   await expect (page.locator("[style*='block']")).toHaveText("Incorrect username/password.");
 });
 
-test('Login_Success', async({page})=>{
+test('Test4', async({page})=>{
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
   await page.locator("#username").fill("rahulshettyacademy");
 

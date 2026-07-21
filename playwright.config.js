@@ -1,5 +1,8 @@
+console.log('Playwright config loaded');
+
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
+
 
 /**
  * Read environment variables from file.
@@ -16,7 +19,7 @@ export default defineConfig({
   testDir: './tests',
   /* Run tests in files in parallel */
 
-  // 40 secons
+  // 40 seconds (Max. time test can run for)
   timeout : 40 * 1000,
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -37,48 +40,49 @@ export default defineConfig({
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
-    browserName : 'chromium',
-    headless : false
+    trace: 'on',
+    screenshot : 'on',
+    video: 'on',
+    // browserName : 'chromium',
+    headless : true,
+    actionTimeout : 10_000,
+    navigationTimeout : 30_000,
   },
 
   /* Configure projects for major browsers */
-  // projects: [
-  //   {
-  //     name: 'chromium',
-  //     use: { ...devices['Desktop Chrome'] },
-  //   },
-
-  //   // {
-  //   //   name: 'firefox',
-  //   //   use: { ...devices['Desktop Firefox'] },
-  //   // },
-
-  //   // {
-  //   //   name: 'webkit',
-  //   //   use: { ...devices['Desktop Safari'] },
-  //   // },
-
-  //   /* Test against mobile viewports. */
-  //   // {
-  //   //   name: 'Mobile Chrome',
-  //   //   use: { ...devices['Pixel 5'] },
-  //   // },
-  //   // {
-  //   //   name: 'Mobile Safari',
-  //   //   use: { ...devices['iPhone 12'] },
-  //   // },
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },    
+  
 
   //   /* Test against branded browsers. */
-  //   // {
-  //   //   name: 'Microsoft Edge',
-  //   //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-  //   // },
-  //   // {
-  //   //   name: 'Google Chrome',
-  //   //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-  //   // },
-  // ],
+    // {
+    //   name: 'Microsoft Edge',
+    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
+    // },
+    // {
+    //   name: 'Google Chcd..rome',
+    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+    // },
+
+
+    ///////////////////////////////////////////////////////////////
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
+    // {
+    //   name: 'Mobile Safari',
+    //   use: { ...devices['iPhone 12'] },
+    // },
+    /* Test against mobile viewport */
+    // {
+    //   name: 'Mobile Chrome',
+    //   use: { ...devices['Pixel 5'] },
+    // },
+  ],
 
   /* Run your local dev server before starting the tests */
   // webServer: {

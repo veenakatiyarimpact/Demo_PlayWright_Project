@@ -31,9 +31,7 @@ test('Sign_In', async({page})=>{
   await page.locator("#userPassword").fill("Ashlesha@128");
   await page.locator("#confirmPassword").fill("Ashlesha@128");
   await page.locator(".ng-pristine").click();
-  await page.pause()
   await page.locator("[type='checkbox']").click();
-  await page.pause()
   await page.locator("#login").click();
   await page.waitForLoadState('networkidle');
   
