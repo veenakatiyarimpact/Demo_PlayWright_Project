@@ -44,16 +44,20 @@ export default defineConfig({
     screenshot : 'on',
     video: 'on',
     // browserName : 'chromium',
-    headless : true,
+    headless : false,
     actionTimeout : 10_000,
     navigationTimeout : 30_000,
   },
 
   /* Configure projects for major browsers */
   projects: [
+    // {
+    //   name: 'chromium',
+    //   use: { ...devices['Desktop Chrome'] },
+    // },
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
     },    
   
 
