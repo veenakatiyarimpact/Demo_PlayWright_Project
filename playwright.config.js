@@ -25,11 +25,11 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 3 : 0,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [['html'],['list'],['allure-playwright']],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   expect:{
       // assertion timeout = 5 seconds
@@ -47,18 +47,33 @@ export default defineConfig({
     headless : false,
     actionTimeout : 10_000,
     navigationTimeout : 30_000,
+
+    ignoreHTTPSErrors : true,
+    permissions:['geolocation'],
   },
 
   /* Configure projects for major browsers */
   projects: [
-    // {
-    //   name: 'chromium',
-    //   use: { ...devices['Desktop Chrome'] },
-    // },
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },    
+      name: 'chromium',
+      use: { 
+        ...devices['Desktop Chrome'] ,
+        // ...devices['iPhone 11'] ,
+        trace: 'on',
+        screenshot : 'on',
+        video: 'retain-on-failure',
+        headless : false,
+        // viewport:{width:1500, height:1500},
+      },
+    },
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] ,
+    //     trace: 'off',
+    //     screenshot : 'only-on-failure',
+    //     video: 'on',
+    //     },
+    // },    
   
 
   //   /* Test against branded browsers. */

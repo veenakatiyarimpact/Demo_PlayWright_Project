@@ -1,61 +1,26 @@
 import { test, expect, request } from '@playwright/test';
 
 
+// Create session storage file 
+test.beforeAll(async ({ browser }) => {
+   const context = await browser.newContext();
+   const page = await context.newPage();
 
-const loginPayLoad = {userEmail:"veena.katiyar@gmail.com",userPassword:"Ashlesha@128"}; 
-let response;
-let token="";
+   await page.goto("https://rahulshettyacademy.com/client");
+   await page.locator("#userEmail").fill("veena.katiyar@gmail.com");
+   await page.locator("#userPassword").fill("Ashlesha@128");
+   await page.locator("[value='Login']").click();
+   await page.waitForLoadState('networkidle');
 
-// Create sessio storage file 
-test('Login automatically1', async ({ page }) =>
-// test.beforeAll( async()=>
-{
-   const url = "https://rahulshettyacademy.com/api/ecom/auth/login"; 
-   const apiContext = await request.newContext();
-
-   const loginResponse = await apiContext.post(url,{data:loginPayLoad});
-   expect(loginResponse.ok()).toBeTruthy();
-   const sessionStorage = apiContext.storageState("state.json");
-//    const responseJson = await loginResponse.json();
-//    token = responseJson.token;
-//    console.log("Token => " + token); 
+  const sessionStorage = await context.storageState({ path: 'state.json' });
 });
 
 
 
  
 // Login automatically using token
-test('Login automatically', async ({ page }) => {
-  await page.addInitScript(value => {
-    window.localStorage.setItem('token', value);
-  }, token);
-  await page.goto("https://rahulshettyacademy.com/client");
-});
-
-
-
-
-// Create order through API
-test('Create order', async ({page}) => {
-
-  await page.addInitScript(value => {
-    window.headers.setItem('Authorization', value);
-  }, token);
-
-  const url = "https://rahulshettyacademy.com/api/ecom/order/create-order";
-  const orderPayload = {orders:[{country:"India",productOrderedId:"6960eae1c941646b7a8b3ed3"}]};
-
-  const apiContext = await request.newContext();
-  const orderResponse = await apiContext.post(url,{data:orderPayload, headers: {
-    Authorization: token,
-    'Content-Type': 'application/json'
-  }});
-  expect(orderResponse.ok()).toBeTruthy();
-
-  const responseJson = await orderResponse.json();
-  const orderId = responseJson.orders;
-  console.log("Orderid => " + orderId); 
-
-  const message = responseJson.message;
-  console.log("Message => " + message); 
+test('@API Login automatically', async ({ browser }) => {
+  const context = await browser.newContext({ storageState: 'state.json' });
+  const page = await context.newPage();
+  await page.goto('https://rahulshettyacademy.com/client');
 });

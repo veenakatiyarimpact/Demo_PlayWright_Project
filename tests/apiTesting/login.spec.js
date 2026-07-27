@@ -23,7 +23,7 @@ test.beforeAll( async()=>
 
  
 // Login automatically using token
-test('Login automatically', async ({ page }) => {
+test('@API Login automatically', async ({ page }) => {
   await page.addInitScript(value => {
     window.localStorage.setItem('token', value);
   }, token);
@@ -34,7 +34,7 @@ test('Login automatically', async ({ page }) => {
 
 
 // Create order through API
-test('Create order', async ({page}) => {
+test('@API Create order', async ({page}) => {
 
   await page.addInitScript(value => {
     window.headers.setItem('Authorization', value);

@@ -11,4 +11,6 @@ tests/allure-report/*
 test-results/
 package-lock.json
 package.json
+allure-report
+allure-results/*
 
