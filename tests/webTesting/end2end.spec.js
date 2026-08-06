@@ -68,12 +68,3 @@ test('Buy_Product', async ({ page }) => {
    const orderIdDetails = await page.locator(".col-text").textContent();
    await expect(orderId.includes(orderIdDetails)).toBeTruthy(); 
 });
- 
- 
- 
- 
- 
- 
- 
- 
- 

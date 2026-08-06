@@ -1,39 +1,37 @@
+import { expect } from '@playwright/test';
+
 class APIUtils {
     constructor(apiContext, loginPayLoad) {
         this.apiContext = apiContext;
         this.loginPayLoad = loginPayLoad;
     }
- 
+
     async getToken() {
-        const url = "https://rahulshettyacademy.com/api/ecom/auth/login"; 
-        const apiContext = await request.newContext();
-    
-        const loginResponse = await apiContext.post(url,{data:loginPayLoad});
+        const url = 'https://rahulshettyacademy.com/api/ecom/auth/login';
+        const loginResponse = await this.apiContext.post(url, { data: this.loginPayLoad });
         expect(loginResponse.ok()).toBeTruthy();
         const responseJson = await loginResponse.json();
-        token = responseJson.token;
-        console.log(token); 
+        const token = responseJson.token;
+        console.log(token);
         return token;
     }
- 
+
     async createOrder(orderPayLoad) {
-        let response = {};
+        const response = {};
         response.token = await this.getToken();
-        const orderResponse = await this.apiContext.post("https://rahulshettyacademy.com/api/ecom/order/create-order", {
+        const orderResponse = await this.apiContext.post('https://rahulshettyacademy.com/api/ecom/order/create-order', {
             data: orderPayLoad,
             headers: {
-                'Authorization': response.token,
-                'Content-Type': 'application/json'
-            }
+                Authorization: response.token,
+                'Content-Type': 'application/json',
+            },
         });
- 
+
         const orderResponseJson = await orderResponse.json();
         console.log(orderResponseJson);
-        const orderId = orderResponseJson.orders[0];
-        response.orderId = orderId;
- 
+        response.orderId = orderResponseJson.orders[0];
         return response;
     }
 }
- 
+
 export { APIUtils };
