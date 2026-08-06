@@ -9,7 +9,7 @@ let token="";
 // Create token 
 test.beforeAll( async()=>
 {
-   const url = "https://rahulshettyacademy.com/api/ecom/auth/login"; 
+   const url = "https://rahulshettyacademy.com/client/#/auth/login"; 
    const apiContext = await request.newContext();
 
    const loginResponse = await apiContext.post(url,{data:loginPayLoad});

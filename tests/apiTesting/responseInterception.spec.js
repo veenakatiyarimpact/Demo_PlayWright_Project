@@ -1,62 +1,80 @@
-// import { test, expect, request } from '@playwright/test';
-// import { APIUtils } from './utils/APIUtils.js';
+import { test, expect, request } from '@playwright/test';
+import { APIUtils } from './utils/APIUtils.js';
 
-// const loginPayLoad = {userEmail:"veena.katiyar@gmail.com",userPassword:"Ashlesha@128"}; 
-// const orderPayLoad = { orders: [{ country: 'India', productOrderedId: '67a8dde5c0d3e6622a297cc8' }] };
-// const fakePayLoadOrders = { data: [], message: 'No Orders' };
+const loginPayLoad = {userEmail:"veena.katiyar@gmail.com",userPassword:"Ashlesha@128"}; 
+const orderPayLoad = { orders: [{ country: 'India', productOrderedId: '6960eac0c941646b7a8b3e68' }] };
+const fakePayLoadOrders = { data: [], message: 'No Orders' };
 
-// let response;
-// let token="";
+let response;
+let token = "";
 
-// // Create token 
-// // test.beforeAll( async()=>
-// test('Create new order', async ({ page }) => {
-// {
-//    const url = "https://rahulshettyacademy.com/api/ecom/auth/login"; 
-//    const apiContext = await request.newContext();
+test.describe.serial('Response interception', () => {
 
-//    const loginResponse = await apiContext.post(url,{data:loginPayLoad});
-// //    expect(loginResponse.ok()).toBeTruthy();
-//    const responseJson = await loginResponse.json();
-//    token = responseJson.token;
-//    console.log("Token => " + token); 
+  // Create new order without response interception
+  test('Create new order without response interception', async ({ page }) =>
+  {
+   // Login
+   let url = "https://rahulshettyacademy.com/api/ecom/auth/login"; 
+   const apiContext = await request.newContext();
 
-//    // Create order
-//    url = "https://rahulshettyacademy.com/api/ecom/order/create-order"
-//    response = await apiContext.post(url,{data:orderPayLoad});
-// });
+   const loginResponse = await apiContext.post(url,{data:loginPayLoad});
+   expect(loginResponse.ok()).toBeTruthy();
+   let responseJson = await loginResponse.json();
+   token = responseJson.token;
+   console.log("Token => " + token); 
 
+   // Create order
+   url = "https://rahulshettyacademy.com/api/ecom/order/create-order";
+   response = await apiContext.post(url, {
+      data: orderPayLoad,
+      headers: { Authorization: token },
+   });
 
-// // test.beforeAll(async () => {
-// //   const apiContext = await request.newContext();
-// //   const apiUtils = new APIUtils(apiContext, loginPayLoad);  
-// // });
+   responseJson = await response.json();
+   console.log("Order Id => " + JSON.stringify(responseJson.orders));
+   console.log("Product Id => " + responseJson.productOrderId);
+   console.log("Message => " + responseJson.message);
+});
+
  
  
-// //create order is success
-// test('Place the order', async ({ page }) => {
-//   await page.addInitScript((token) => {
-//     window.localStorage.setItem('token', token);
-//   }, response.token);
+//create new order with response interception
+test('Create new order with response interception', async ({ page }) => {
+  // Ensure token is available when this test runs standalone
+  if (!token) {
+    const loginUrl = "https://rahulshettyacademy.com/api/ecom/auth/login";
+    const apiContext = await request.newContext();
+    const loginResponse = await apiContext.post(loginUrl, { data: loginPayLoad });
+    expect(loginResponse.ok()).toBeTruthy();
+    const responseJson = await loginResponse.json();
+    token = responseJson.token;
+    await apiContext.dispose();
+  }
 
-//   await page.route('**/api/ecom/order/get-orders-for-customer/*', async (route) => {
-//     const originalResponse = await route.fetch();
-//     await route.fulfill({
-//       status: originalResponse.status(),
-//       headers: originalResponse.headers(),
-//       contentType: 'application/json',
-//       body: JSON.stringify(fakePayLoadOrders),
-//     });
-//   });
+  await page.addInitScript(value => {
+    window.localStorage.setItem('token', value);
+  }, token);
 
-//   await page.goto('https://rahulshettyacademy.com/client');
+  // Intercept the orders API and return fake payload
+  await page.route('**/api/ecom/order/get-orders-for-customer/*', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(fakePayLoadOrders),
+    });
+  });
 
-//   const [response] = await Promise.all([
-//     page.waitForResponse('**/api/ecom/order/get-orders-for-customer/*'),
-//     page.locator("button[routerlink*='myorders']").click(),
-//   ]);
+  await page.goto("https://rahulshettyacademy.com/client");
+  await page.waitForLoadState('networkidle');
 
-//   const orderText = await page.locator('.mt-4').textContent();
-//   console.log(orderText);
-//   expect(orderText).toContain('No Orders');
-// });
+  const [orderResponse] = await Promise.all([
+    page.waitForResponse('**/api/ecom/order/get-orders-for-customer/*'),
+    page.locator("button[routerlink*='myorders']").click(),
+  ]);
+
+  expect(orderResponse.ok()).toBeTruthy();
+  const responseBody = await orderResponse.json();
+  expect(responseBody).toEqual(fakePayLoadOrders);
+});
+
+});
