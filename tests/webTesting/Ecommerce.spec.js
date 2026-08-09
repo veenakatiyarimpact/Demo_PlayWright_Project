@@ -6,6 +6,7 @@ import { EcommercePage } from './pageObjects/EcommercePage.js';
 test('Buy_Products', async ({ page }) => {
    const email = "veena.katiyar13@gmail.com";
    const productName = 'ZARA COAT 3';
+   
    const ecommerce = new EcommercePage(page);
 
    await ecommerce.goto();
