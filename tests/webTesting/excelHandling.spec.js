@@ -12,3 +12,15 @@ test('Read data from excel', async () => {
     expect(excelData.length).toBeGreaterThan(0);
     console.log('Name : ' + (excelData[0].VALUE));
 });
+
+test('Write data into excel', async () => {
+    const data = {
+    username: "aashu123",
+    password: "aashu@129",
+    status: "Pass"
+};
+    const excelUtils = new ExcelUtils();
+    const sheetName = 'testdata';
+    
+    excelUtils.writeExcelData(filePath, "Veena",data);
+});
