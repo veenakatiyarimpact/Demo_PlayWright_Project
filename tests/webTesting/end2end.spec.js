@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
  
  
  
-test('Buy_Product', async ({ page }) => {
+test('Buy_Products', async ({ page }) => {
 
    const email = "veena.katiyar13@gmail.com";
    const productName = 'ZARA COAT 3';
