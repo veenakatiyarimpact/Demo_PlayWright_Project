@@ -1,6 +1,6 @@
 public class countChars {
 
-    public static void countChars(String str) {
+    public static void countChars1(String str) {
         String found = "";
 
         for(int i = 0; i< str.length();i++){
@@ -21,8 +21,8 @@ public class countChars {
     }
 
     public static void main(String[] args) {
-        countChars.countChars("Veena Katiyar");
-        countChars.countChars("AaBbCcDd");
-        countChars.countChars(" ");
+        countChars.countChars1("Veena Katiyar");
+        countChars.countChars1("AaBbCcDd");
+        countChars.countChars1(" ");
     }
 }

@@ -9,6 +9,7 @@ public class duplicateNumbers {
                 if(num.charAt(i) == num.charAt(j)){
                     if(! dups.contains(String.valueOf(num.charAt(i)))){
                         dups += num.charAt(i);
+                        dups+= " , ";
                     }
                 }
             }
