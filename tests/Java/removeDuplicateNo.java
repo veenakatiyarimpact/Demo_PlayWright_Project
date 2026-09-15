@@ -1,3 +1,5 @@
+// This program removes duplicate numbers from an integer array.
+
 public class removeDuplicateNo {
 
     public static void main(String[] args) {

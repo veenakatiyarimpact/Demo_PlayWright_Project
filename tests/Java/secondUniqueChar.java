@@ -1,3 +1,5 @@
+// This program finds the second unique character in a string.
+
 class secondUniqueChar{}
 public static void main(String [] a){
 

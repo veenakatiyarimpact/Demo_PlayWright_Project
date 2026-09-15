@@ -1,3 +1,5 @@
+// This program finds a missing character in an alphabetic sequence.
+
 public class missingChar {
 
     public static void missingChar1(String str) {

@@ -1,3 +1,5 @@
+// This program removes duplicate characters from a string.
+
 public class removeDuplicateChar {
 
     public static void main(String[] args) {

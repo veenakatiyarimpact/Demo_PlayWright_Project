@@ -1,3 +1,5 @@
+// This program finds the missing number in a sequence of integers.
+
 public class missingNo {
 
     public static void findMissingNo(int[] arr) {

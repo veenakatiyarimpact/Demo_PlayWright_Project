@@ -1,3 +1,5 @@
+// This program finds the maximum and minimum values in an array.
+
 public class findMaxInArray {
     public static void main(String[] args) {
         int []arr = {1,2,3,4,5};

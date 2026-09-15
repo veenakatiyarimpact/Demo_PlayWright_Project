@@ -1,3 +1,5 @@
+// This program checks whether strings are palindromes.
+
 public class pallindrome {
 
     public static void main(String [] a){

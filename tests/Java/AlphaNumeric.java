@@ -1,3 +1,5 @@
+// This program separates alphabetic and numeric characters from a string.
+
 public class AlphaNumeric {
     public static void main(String[] args) {
         String str = "Pune123Nagar";

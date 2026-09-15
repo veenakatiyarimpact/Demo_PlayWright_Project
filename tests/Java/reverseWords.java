@@ -1,3 +1,4 @@
+// This program reverses the order of words in a sentence.
 // Input : Java is very easy
 // Expected output : easy very is Java
 

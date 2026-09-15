@@ -1,3 +1,4 @@
+// This program reverses a string using StringBuilder.
 public class ReverseTheString {
 
     public static void main(String[] args) {

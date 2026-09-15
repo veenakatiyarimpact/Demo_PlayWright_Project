@@ -1,3 +1,5 @@
+// This program finds the highest and second-highest numbers in an array.
+
 public class secondHighestNo {
 
     public static void main(String[] args) {

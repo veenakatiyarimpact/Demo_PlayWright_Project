@@ -1,3 +1,5 @@
+// This program counts the occurrences of each character in a string.
+
 public class countChars {
 
     public static void countChars1(String str) {

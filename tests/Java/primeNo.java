@@ -1,6 +1,8 @@
+// This program prints a specified number of prime numbers.
 public class primeNo {
 
     public static void main(String[] args) {
+
         int no = 7; // How many prime no. required
         boolean prime = false;
         int num = 2;
@@ -11,7 +13,8 @@ public class primeNo {
             for (int i = 2; i <= num; i++){       
 
                 if(num % i == 0 && i != num){
-                    prime = false;    
+                    prime = false;   
+                    break; 
                 }
             }
 
