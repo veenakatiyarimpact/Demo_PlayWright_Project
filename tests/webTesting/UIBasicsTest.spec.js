@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 
+test.describe.configure({ mode: 'serial' });
 
 test('UI Basics Test', async ({ page ,browserName}) => {
    if (browserName === 'firefox') {

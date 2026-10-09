@@ -6,7 +6,7 @@ test.beforeAll(async ({ browser }) => {
    const context = await browser.newContext();
    const page = await context.newPage();
 
-   await page.goto("https://rahulshettyacademy.com/client");
+  await page.goto("http://localhost:3001/client");
    await page.locator("#userEmail").fill("veena.katiyar@gmail.com");
    await page.locator("#userPassword").fill("Ashlesha@128");
    await page.locator("[value='Login']").click();
@@ -22,5 +22,5 @@ test.beforeAll(async ({ browser }) => {
 test('@API Login automatically', async ({ browser }) => {
   const context = await browser.newContext({ storageState: 'state.json' });
   const page = await context.newPage();
-  await page.goto('https://rahulshettyacademy.com/client');
+  await page.goto('http://localhost:3001/client');
 });

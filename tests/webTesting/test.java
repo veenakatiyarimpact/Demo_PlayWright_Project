@@ -28,7 +28,6 @@ public class test {
            }
 
         }
-        System.out.println("Start small. Ship something.");
     }
     
 }

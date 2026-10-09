@@ -14,7 +14,8 @@ test('Request interception', async ({ page }) => {
     await page.locator(".card-body b").first().waitFor();
     await page.locator("button[routerlink*='myorders']").click();
 
-    // Intercept the order-details API request, it's having invalid order id. Request interception used "route.continue"
+    // Intercept the order-details API request, it's having invalid order id. 
+    // Request interception used "route.continue"
     await page.route(
         "**/api/ecom/order/get-orders-details?id=*",
         route => route.continue({
