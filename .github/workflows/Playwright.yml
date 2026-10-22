@@ -1,14 +1,16 @@
 
-name: Run Playwright Tests
+name: Playwright Tests
 
 on:
+  # Scheduled execution: Daily at 9:00 PM IST
   schedule:
-    - cron: '30 15 * * *' # 9:00 PM IST (UTC time)
+    - cron: '30 15 * * *'
 
+  # Manual execution
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Select the environment'
+        description: 'Select Environment'
         required: true
         type: choice
         default: 'Smoke'
@@ -18,7 +20,7 @@ on:
           - Regression
 
       tags:
-        description: 'Select the tag'
+        description: 'Select Test Tag'
         required: true
         type: choice
         default: '@Smoke'
@@ -28,37 +30,49 @@ on:
           - '@Regression'
 
 jobs:
-  test:
+  playwright-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      # 1. Checkout source code
+      - name: Checkout Repository
         uses: actions/checkout@v6
 
-      - name: Set up Node.js
+      # 2. Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: lts/*
+          cache: npm
 
-      - name: Set up date timestamp
-        run: echo "build_execution_time=$(date -u +'%d-%b-%y_%H-%M-%S')" >> $GITHUB_ENV
+      # 3. Generate timestamp
+      - name: Generate Timestamp
+        run: |
+          echo "BUILD_TIME=$(date -u +'%d-%b-%y_%H-%M-%S')" >> $GITHUB_ENV
 
-      - name: Install dependencies
+      # 4. Install dependencies
+      - name: Install Dependencies
         run: npm ci
 
+      # 5. Install Playwright browsers
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright tests
-        run: npx playwright test --grep "$TEST_TAG"
+      # 6. Execute Playwright tests
+      - name: Run Playwright Tests
         env:
           TEST_ENV: ${{ inputs.environment || 'Regression' }}
           TEST_TAG: ${{ inputs.tags || '@Regression' }}
+        run: |
+          echo "Environment: $TEST_ENV"
+          echo "Test Tag: $TEST_TAG"
+          npx playwright test --grep "$TEST_TAG" --reporter=html
 
+      # 7. Upload HTML report
       - name: Upload Playwright Report
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: playwright-report_${{ env.build_execution_time }}
+          name: Playwright-Report-${{ env.BUILD_TIME }}
           path: playwright-report/
           retention-days: 30
