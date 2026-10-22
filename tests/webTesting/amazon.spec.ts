@@ -3,6 +3,8 @@ import {test,expect} from '@playwright/test';
 
 test('Amazon Search Test', async ({ page }) => {
     await page.goto("https://www.flipkart.com");
+    await page.alert.dismiss();
+    await page.pause();
     await page.locator('[name="q"]').fill("laptops");
     let price = await page.locator(".lvJbLV col-12-12").locator(".hZ3P6w DeU9vF").allTextContents();
 
@@ -12,6 +14,6 @@ test('Amazon Search Test', async ({ page }) => {
        console.log(p)
 
     }
-    await page.pause();
+    
     // await page
 });

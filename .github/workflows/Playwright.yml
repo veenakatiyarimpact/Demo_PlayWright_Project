@@ -1,9 +1,25 @@
 name: Playwright Tests
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+  schedule:
+    - cron: '30 20 * * *'    #IST: 8:30 PM
+  workflow_dispatch:
+  inputs:
+    environment:
+      description: 'Select the environment'
+      required: true
+      default: 'Smoke'
+      options:
+        - 'Smoke'
+        - 'Sanity'
+        - 'Regression'
+    tags:
+      description: 'Select the tag'
+      required: true
+      default: '@Smoke'
+      options:
+        - '@Smoke'
+        - '@Sanity'
+        - '@Regression'
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -12,15 +28,17 @@ jobs:
     - uses: actions/setup-node@v6
       with:
         node-version: lts/*
+    - name: Set up date timestamp
+      run: echo "build_execution_time=$(date +'%-d-%b-%y_%H-%M-%S')" >> $GITHUB_ENV
     - name: Install dependencies
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: npx playwright test
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       if: ${{ !cancelled() }}
       with:
-        name: playwright-report
+        name: playwright-report_${{ env.build_execution_time }}
         path: playwright-report/
         retention-days: 30
