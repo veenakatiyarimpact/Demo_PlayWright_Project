@@ -10,6 +10,7 @@ test.describe('GreenKart App', () => {
     await expect(page.locator('.products')).toBeVisible();
     // await expect(page.locator('.product')).toHaveCountGreaterThan(0);
   });
+
   test('Search filters products', async ({ page }) => {
     await page.goto('https://rahulshettyacademy.com/seleniumPractise/#/');
     await page.fill('input[type="search"]', 'Brocolli');
@@ -17,6 +18,7 @@ test.describe('GreenKart App', () => {
     await page.fill('input[type="search"]', '');
     // await expect(page.locator('.product')).toHaveCountGreaterThan(1);
   });
+  
   test('Add product to cart and verify cart count', async ({ page }) => {
     await page.goto('https://rahulshettyacademy.com/seleniumPractise/#/');
     const firstProduct = page.locator('.product').first();
