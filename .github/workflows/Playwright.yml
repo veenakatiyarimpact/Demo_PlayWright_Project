@@ -1,5 +1,5 @@
 
-name: Playwright Tests
+name: Run Playwright Tests
 
 on:
   schedule:
@@ -50,9 +50,10 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npx playwright test --grep "${{ inputs.tags || '@Regression' }}"
+        run: npx playwright test --grep "$TEST_TAG"
         env:
           TEST_ENV: ${{ inputs.environment || 'Regression' }}
+          TEST_TAG: ${{ inputs.tags || '@Regression' }}
 
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v7
