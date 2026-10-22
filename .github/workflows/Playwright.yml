@@ -2,7 +2,7 @@
 name: Playwright Tests
 
 on:
-  # Scheduled execution: Daily at 9:00 PM IST
+  # Daily execution at 9:00 PM IST
   schedule:
     - cron: '30 15 * * *'
 
@@ -13,7 +13,7 @@ on:
         description: 'Select Environment'
         required: true
         type: choice
-        default: 'Smoke'
+        default: Smoke
         options:
           - Smoke
           - Sanity
@@ -33,8 +33,12 @@ jobs:
   playwright-tests:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./Demo_PlayWright_Project
+
     steps:
-      # 1. Checkout source code
+      # 1. Checkout repository
       - name: Checkout Repository
         uses: actions/checkout@v6
 
@@ -44,6 +48,7 @@ jobs:
         with:
           node-version: lts/*
           cache: npm
+          cache-dependency-path: Demo_PlayWright_Project/package-lock.json
 
       # 3. Generate timestamp
       - name: Generate Timestamp
@@ -70,9 +75,10 @@ jobs:
 
       # 7. Upload HTML report
       - name: Upload Playwright Report
-        uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        if: always()
         with:
           name: Playwright-Report-${{ env.BUILD_TIME }}
-          path: playwright-report/
+          path: Demo_PlayWright_Project/playwright-report/
           retention-days: 30
+          if-no-files-found: warn
