@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 
 
-test('drag and drop', async ({ page }) => {
+test('@Smoke drag and drop', async ({ page }) => {
   await page.goto('https://the-internet.herokuapp.com/drag_and_drop');
 
   await page.locator('#column-a').dragTo(page.locator('#column-b'));

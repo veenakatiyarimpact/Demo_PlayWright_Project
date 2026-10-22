@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe.configure({ mode: 'parallel' });
 
-test('Test1', async ({ page ,browserName}) => {
+test('@Sanity Test1', async ({ page ,browserName}) => {
    if (browserName === 'firefox') {
         console.log('Running in Firefox');
     }else if (browserName === 'chromium') {
@@ -12,7 +12,7 @@ test('Test1', async ({ page ,browserName}) => {
   await expect(page).toHaveTitle(/Playwright/);
 });
 
-test('Test2', async({page})=>{
+test('@Sanity Test2', async({page})=>{
   await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
   await page.locator("#userEmail").fill("veena.katiyar@gmail.com");
   await page.locator("#userPassword").fill("Ashlesha@128");

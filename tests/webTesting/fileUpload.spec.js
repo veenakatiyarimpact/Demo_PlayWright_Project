@@ -2,7 +2,7 @@ import path from 'path';
 
 import { test, expect } from '@playwright/test';
 
-test('Upload single file', async ({ page }) => {
+test('@Smoke Upload single file', async ({ page }) => {
   const filePath = path.resolve('TestData/vk1.jpg');
   console.log("File path => " + filePath);
 

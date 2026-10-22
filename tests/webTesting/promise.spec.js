@@ -1,7 +1,7 @@
 import { test , expect} from '@playwright/test';
 
 
-test('Child windows handling', async ({browser})=>
+test('@Regression Child windows handling', async ({browser})=>
  {
     const context = await browser.newContext();
     const page =  await context.newPage();

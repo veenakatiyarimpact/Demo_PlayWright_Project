@@ -1,7 +1,7 @@
 import { test , expect} from '@playwright/test';
 
 
-test('Take_Screenshot', async({page})=>{
+test('@Regression Take_Screenshot', async({page})=>{
   await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
   await page.locator("#userEmail").fill("veena.katiyar@gmail.com");
   await page.locator("#userPassword").fill("Ashlesha@128");

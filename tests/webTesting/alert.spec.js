@@ -3,7 +3,7 @@ import { test } from '@playwright/test';
 const url = "https://the-internet.herokuapp.com/javascript_alerts"
 
 // Alert pop-up
-test('Handle Alert', async ({ page }) => {
+test('@Smoke Handle Alert', async ({ page }) => {
 
   await page.goto(url);
 
@@ -18,7 +18,7 @@ test('Handle Alert', async ({ page }) => {
 
 
 // Confirm pop-up : Accept
-test('Handle Confirm OK', async ({ page }) => {
+test('@Smoke Handle Confirm OK', async ({ page }) => {
 
   await page.goto(url);
 
@@ -32,7 +32,7 @@ test('Handle Confirm OK', async ({ page }) => {
 });
 
 // Confirm pop-up : Dismiss
-test('Handle Confirm Cancel', async ({ page }) => {
+test('@Smoke Handle Confirm Cancel', async ({ page }) => {
 
   await page.goto(url);
 

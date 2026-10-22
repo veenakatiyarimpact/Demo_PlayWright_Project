@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 
-test('Two users chatting', async ({ browser }) => {
+test('@Regression Two users chatting', async ({ browser }) => {
 
     const user1 = await browser.newContext();
     const user2 = await browser.newContext();

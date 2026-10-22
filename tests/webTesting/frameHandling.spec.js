@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 
-test('frameHandling', async({page})=>{
+test('@Sanity frameHandling', async({page})=>{
   await page.goto("https://rahulshettyacademy.com/AutomationPractice/");  
   const frame1 = page.frameLocator("#courses-iframe");
   await frame1.locator("li a[href*='lifetime-access']:visible").click();
