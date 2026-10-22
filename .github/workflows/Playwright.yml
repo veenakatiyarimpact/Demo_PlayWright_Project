@@ -1,44 +1,63 @@
+
 name: Playwright Tests
+
 on:
   schedule:
-    - cron: '30 20 * * *'    #IST: 8:30 PM
+    - cron: '30 15 * * *' # 9:00 PM IST (UTC time)
+
   workflow_dispatch:
-  inputs:
-    environment:
-      description: 'Select the environment'
-      required: true
-      default: 'Smoke'
-      options:
-        - 'Smoke'
-        - 'Sanity'
-        - 'Regression'
-    tags:
-      description: 'Select the tag'
-      required: true
-      default: '@Smoke'
-      options:
-        - '@Smoke'
-        - '@Sanity'
-        - '@Regression'
+    inputs:
+      environment:
+        description: 'Select the environment'
+        required: true
+        type: choice
+        default: 'Smoke'
+        options:
+          - Smoke
+          - Sanity
+          - Regression
+
+      tags:
+        description: 'Select the tag'
+        required: true
+        type: choice
+        default: '@Smoke'
+        options:
+          - '@Smoke'
+          - '@Sanity'
+          - '@Regression'
+
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v6
-    - uses: actions/setup-node@v6
-      with:
-        node-version: lts/*
-    - name: Set up date timestamp
-      run: echo "build_execution_time=$(date +'%-d-%b-%y_%H-%M-%S')" >> $GITHUB_ENV
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-    - uses: actions/upload-artifact@v7
-      if: ${{ !cancelled() }}
-      with:
-        name: playwright-report_${{ env.build_execution_time }}
-        path: playwright-report/
-        retention-days: 30
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+
+      - name: Set up date timestamp
+        run: echo "build_execution_time=$(date -u +'%d-%b-%y_%H-%M-%S')" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx playwright test --grep "${{ inputs.tags || '@Regression' }}"
+        env:
+          TEST_ENV: ${{ inputs.environment || 'Regression' }}
+
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v7
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report_${{ env.build_execution_time }}
+          path: playwright-report/
+          retention-days: 30
